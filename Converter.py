@@ -267,11 +267,13 @@ def write_questions_to_word(df, output_path):
             p_opt = document.add_paragraph()
             p_opt.paragraph_format.left_indent = Pt(12)
 
+            emptyString = " " * config.tab
+            beforeOpt = " " * config.tab2
             # Build the entire options line
             options_text = (
-                f"a) {row['option-a']}    "
-                f"b) {row['option-b']}    "
-                f"c) {row['option-c']}    "
+                f"{beforeOpt}a) {row['option-a']}{emptyString}"
+                f"b) {row['option-b']}{emptyString}"
+                f"c) {row['option-c']}{emptyString}"
                 f"d) {row['option-d']}"
             )
 

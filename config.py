@@ -1,15 +1,16 @@
 import os
 from helper import to_camel_case
-
+import time
 
 # ======================
 # Question Paper Config
 # ======================
 # Topic heading shown at the top of the first page
-TOPIC_NAME = "Python Basics - Practice Questions"
+TOPIC_NAME = f"ChangeName-{time.time()}"
 # Input/Output file names
 INPUT_FILE_NAME = "newQuestion.xlsx"
-
+tab=4
+tab2=4
 
 #========================
 #
@@ -22,7 +23,7 @@ FORMAT=1  # 1: Two-column questions, answers at end; 2: Single-column questions 
 # Fonts
 QUESTION_FONT = "Times New Roman"
 QUESTION_FONT_SIZE = 12
-OPTION_FONT = "Calibri"
+OPTION_FONT = "Times New Roman"
 OPTION_FONT_SIZE = 11
 HEADING_FONT = "Arial Black"
 HEADING_FONT_SIZE = 20
@@ -35,7 +36,7 @@ RIGHT_MARGIN_CM = 1
 
 # Line spacing (1.0 = single, 1.15 = Word default)
 LINE_SPACING = 1
-
+tab=3
 
 # ======================
 # PowerPoint Formatting
