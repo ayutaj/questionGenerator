@@ -7,6 +7,7 @@ from docx.oxml.ns import qn
 from docx.enum.section import WD_SECTION
 from pptx import Presentation
 from pptx.util import Pt, Inches
+from pptx.oxml.xmlchemy import OxmlElement
 import argparse
 import os
 import sys
@@ -111,14 +112,14 @@ def write_ppt(df, output_path):
 
     for idx, row in df.iterrows():
         slide = prs.slides.add_slide(prs.slide_layouts[1])  # Title + Content layout
-        
+
         title = slide.shapes.title
         body = slide.placeholders[1]
 
         question = row["question"].strip()
 
         # -----------------------
-        # Set Title (question)
+        # Set Title
         # -----------------------
         title.text = question
         title_run = title.text_frame.paragraphs[0].runs[0]
@@ -138,24 +139,31 @@ def write_ppt(df, output_path):
         bullets = ["a)", "b)", "c)", "d)"]
 
         tf = body.text_frame
-        tf.text = ""  # clear placeholder
+        tf.text = ""   # clear placeholder
 
         for i, option in enumerate(options):
             p = tf.add_paragraph()
-            p.text = f"{bullets[i]} {option}"
-            p.level = 0
 
-            # Apply font settings
+            # --- Remove built-in bullets ---
+            p_pr = p._pPr
+            buNone = OxmlElement('a:buNone')
+            p_pr.insert(0, buNone)
+
+            # --- Set custom text ---
+            p.text = f"{bullets[i]} {option}"
+
+            # Apply font to runs
             for run in p.runs:
                 run.font.name = config.PPT_OPTION_FONT
                 run.font.size = Pt(config.PPT_OPTION_FONT_SIZE)
 
-        # Remove auto-created empty paragraph
+        # Remove auto first empty paragraph
         if len(tf.paragraphs) > 0:
             tf.paragraphs[0].text = ""
 
     prs.save(output_path)
     print(f"✅ PPT file created: {os.path.abspath(output_path)}")
+
 # =========================================================
 # FORMATTING HELPERS
 # =========================================================
